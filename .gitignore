@@ -22,3 +22,10 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# SQLite 데이터베이스 파일들
+*.db
+*.db-shm
+*.db-wal
+*.sqlite
+*.sqlite3
