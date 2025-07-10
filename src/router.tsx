@@ -8,6 +8,8 @@ import NightHours from "./pages/NightHours";
 import MonthlyAttendance from "./pages/MonthlyAttendance";
 import MonthlySchedules from "./pages/MonthlySchedules";
 import AnnualLeave from "./pages/AnnualLeave";
+import EmployeeAdd from "./pages/EmployeeAdd";
+import EmployeeEdit from "./pages/EmployeeEdit";
 
 export const router = createBrowserRouter([
   {
@@ -21,6 +23,16 @@ export const router = createBrowserRouter([
       {
         path: "/employees",
         element: <EmployeeManagement />,
+        children: [
+          {
+            path: "add",
+            element: <EmployeeAdd />,
+          },
+          {
+            path: "edit",
+            element: <EmployeeEdit />,
+          },
+        ],
       },
       {
         path: "/monthly-plan",
