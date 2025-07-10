@@ -23,16 +23,14 @@ export const router = createBrowserRouter([
       {
         path: "/employees",
         element: <EmployeeManagement />,
-        children: [
-          {
-            path: "add",
-            element: <EmployeeAdd />,
-          },
-          {
-            path: "edit",
-            element: <EmployeeEdit />,
-          },
-        ],
+      },
+      {
+        path: "/employees/add",
+        element: <EmployeeAdd />,
+      },
+      {
+        path: "/employees/edit",
+        element: <EmployeeEdit />,
       },
       {
         path: "/monthly-plan",
