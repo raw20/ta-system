@@ -5,10 +5,9 @@ export interface Employee {
   id?: number;
   emp_code: string;
   name: string;
-  position: "파트장" | "선임" | "조장" | "정규사원" | "단시간사원";
-  department: string;
+  position: "PTL" | "SNR" | "TLD" | "REG" | "PRT";
   hire_date: string;
-  status: "active" | "inactive";
+  status?: "active" | "inactive";
   created_at?: string;
   updated_at?: string;
 }
