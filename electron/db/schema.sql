@@ -9,7 +9,6 @@ CREATE TABLE IF NOT EXISTS employees (
     emp_code TEXT UNIQUE NOT NULL,             -- 입사일 코드 (202502020 형태)
     name TEXT NOT NULL,                        -- 이름
     position TEXT NOT NULL,                    -- 직급 (파트장, 선임, 사원)
-    department TEXT DEFAULT '은평사업장',      -- 부서
     hire_date DATE,                           -- 입사일
     status TEXT DEFAULT 'active',             -- 재직상태
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
@@ -201,7 +200,7 @@ CREATE INDEX IF NOT EXISTS idx_annual_leave_status_date ON annual_leave_status(y
 
 -- 직원 정보 (주석 예시)
 INSERT OR IGNORE INTO employees (emp_code, name, position, hire_date) VALUES
-('SAMPLE001', '샘플직원', '사원', '2025-01-01');
+('202501010', '이마트', 'REG', '2025-01-01');
 
 
 -- 근무 조 정보 (주석 예시)
