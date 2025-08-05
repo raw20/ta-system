@@ -29,7 +29,7 @@ export const router = createBrowserRouter([
         element: <EmployeeAdd />,
       },
       {
-        path: "/employees/edit",
+        path: "/employees/edit/:id",
         element: <EmployeeEdit />,
       },
       {
