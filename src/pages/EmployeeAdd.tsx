@@ -1,17 +1,10 @@
 import { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import type { Employee } from "../types";
+import { positions, validateForm } from "../utils/employee";
 
 export default function EmployeeAdd() {
   const navigate = useNavigate();
-
-  const positions = [
-    { id: 1, code: "PTL", name: "파트장" },
-    { id: 2, code: "SNR", name: "선임" },
-    { id: 3, code: "TLD", name: "조장" },
-    { id: 4, code: "REG", name: "정규사원" },
-    { id: 5, code: "PRT", name: "단시간사원" },
-  ];
 
   const [empCode, setEmpCode] = useState("");
   const [name, setName] = useState("");
@@ -22,39 +15,19 @@ export default function EmployeeAdd() {
   const [error, setError] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  // 유효성 검사 함수
-  const validateForm = (): string => {
-    if (!empCode.trim()) {
-      return "사번을 입력해주세요.";
-    }
-    if (!name.trim()) {
-      return "이름을 입력해주세요.";
-    }
-
-    if (!hireDate) {
-      return "입사일을 입력해주세요.";
-    }
-
-    // 사번 형식 검사 (예: 숫자만 허용하거나 특정 패턴)
-    if (!/^[A-Za-z0-9]+$/.test(empCode)) {
-      return "사번은 영문자와 숫자만 입력 가능합니다.";
-    }
-
-    // 이름 길이 검사
-    if (name.trim().length < 2) {
-      return "이름은 2글자 이상 입력해주세요.";
-    }
-
-    return "";
-  };
-
   // 폼 제출 처리
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError("");
 
     // 유효성 검사
-    const validationError = validateForm();
+    const validationError = validateForm({
+      empCode,
+      name,
+      position,
+      hireDate,
+    });
+
     if (validationError) {
       setError(validationError);
       return;
@@ -70,11 +43,28 @@ export default function EmployeeAdd() {
         hire_date: hireDate,
       };
 
-      await window.electronAPI.employees.create(employeeData);
+      const result = await window.electronAPI.employees.create(employeeData);
 
-      // 성공 시 직원 목록 페이지로 이동
-      alert("직원이 성공적으로 추가되었습니다.");
-      navigate("/employees");
+      if (result.success) {
+        // 성공 시 직원 목록 페이지로 이동
+        alert("직원이 성공적으로 추가되었습니다.");
+        navigate("/employees");
+      } else {
+        // API에서 반환한 에러 메시지 처리
+        const errorMessage = result.error || "직원 추가에 실패했습니다.";
+
+        // 중복 사번 에러 특별 처리
+        if (
+          errorMessage.includes("UNIQUE constraint failed") ||
+          errorMessage.includes("중복") ||
+          errorMessage.includes("duplicate") ||
+          errorMessage.toLowerCase().includes("emp_code")
+        ) {
+          setError("이미 존재하는 사번입니다. 다른 사번을 입력해주세요.");
+        } else {
+          setError(errorMessage);
+        }
+      }
     } catch (err) {
       console.error("직원 추가 실패:", err);
       if (err instanceof Error) {
