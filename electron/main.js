@@ -45,20 +45,102 @@ app.whenReady().then(() => {
   createWindow();
 });
 
-// 🎯 테스트용 IPC 핸들러
-ipcMain.handle("test:db-connection", async () => {
-  console.log("🔍 DB 연결 테스트 요청 받음");
+// 직원 목록 조회
+ipcMain.handle("employees:get-all", async () => {
   try {
     const db = getDatabase();
-    const employees = db.prepare("SELECT * FROM employees").all();
-    console.log("✅ 직원 조회 성공:", employees.length);
-    return { success: true, count: employees.length, employees };
+    const employees = db.prepare("SELECT * FROM employees ORDER BY name").all();
+    return { success: true, data: employees };
   } catch (error) {
-    console.error("❌ DB 테스트 실패:", error);
+    console.error("직원 목록 조회 실패:", error);
     return { success: false, error: error.message };
   }
 });
 
+// 특정 직원 조회
+ipcMain.handle("employees:get-by-id", async (event, employeeId) => {
+  try {
+    const db = getDatabase();
+    const employee = db
+      .prepare("SELECT * FROM employees WHERE id = ?")
+      .get(employeeId);
+
+    if (!employee) {
+      return { success: false, error: "해당 ID의 직원을 찾을 수 없습니다." };
+    }
+
+    return { success: true, data: employee };
+  } catch (error) {
+    console.error("직원 조회 실패:", error);
+    return { success: false, error: error.message };
+  }
+});
+
+// 직원 추가
+ipcMain.handle("employees:create", async (event, employee) => {
+  try {
+    const db = getDatabase();
+    const stmt = db.prepare(`
+      INSERT INTO employees (emp_code, name, position, department, hire_date, status)
+      VALUES (?, ?, ?, ?, ?, ?)
+    `);
+
+    const result = stmt.run(
+      employee.emp_code,
+      employee.name,
+      employee.position,
+      employee.department,
+      employee.hire_date,
+      employee.status || "active"
+    );
+
+    return { success: true, data: { id: result.lastInsertRowid } };
+  } catch (error) {
+    console.error("직원 추가 실패:", error);
+    return { success: false, error: error.message };
+  }
+});
+
+// 직원 수정
+ipcMain.handle("employees:update", async (event, id, employee) => {
+  try {
+    const db = getDatabase();
+    const stmt = db.prepare(`
+      UPDATE employees 
+      SET emp_code = ?, name = ?, position = ?, department = ?, hire_date = ?, status = ?, updated_at = CURRENT_TIMESTAMP
+      WHERE id = ?
+    `);
+
+    const result = stmt.run(
+      employee.emp_code,
+      employee.name,
+      employee.position,
+      employee.department,
+      employee.hire_date,
+      employee.status,
+      id
+    );
+
+    return { success: true, data: { changes: result.changes } };
+  } catch (error) {
+    console.error("직원 수정 실패:", error);
+    return { success: false, error: error.message };
+  }
+});
+
+// 직원 삭제
+ipcMain.handle("employees:delete", async (event, id) => {
+  try {
+    const db = getDatabase();
+    const stmt = db.prepare("DELETE FROM employees WHERE id = ?");
+    const result = stmt.run(id);
+
+    return { success: true, data: { changes: result.changes } };
+  } catch (error) {
+    console.error("직원 삭제 실패:", error);
+    return { success: false, error: error.message };
+  }
+});
 app.on("window-all-closed", () => {
   closeDatabase();
   if (process.platform !== "darwin") {
