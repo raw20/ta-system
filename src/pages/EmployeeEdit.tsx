@@ -174,7 +174,7 @@ export default function EmployeeEdit() {
           <h2 className="text-3xl font-bold text-gray-900">사용자 수정</h2>
           <NavLink
             to="/employees"
-            className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 cursor-pointer transition-colors"
+            className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600  transition-colors"
           >
             뒤로가기
           </NavLink>
@@ -203,7 +203,7 @@ export default function EmployeeEdit() {
         <div className="flex justify-between">
           <NavLink
             to="/employees"
-            className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 mr-1 cursor-pointer transition-colors"
+            className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 mr-1 transition-colors"
           >
             뒤로가기
           </NavLink>
@@ -328,7 +328,7 @@ export default function EmployeeEdit() {
                   className={`flex-1 px-6 py-2 rounded-lg font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 ${
                     isSubmitting
                       ? "bg-gray-400 cursor-not-allowed"
-                      : "bg-cyan-500 hover:bg-cyan-600 focus:ring-cyan-500 cursor-pointer"
+                      : "bg-cyan-500 hover:bg-cyan-600 focus:ring-cyan-500"
                   } text-white`}
                 >
                   {isSubmitting ? (
@@ -364,7 +364,7 @@ export default function EmployeeEdit() {
                   type="button"
                   onClick={handleReset}
                   disabled={isSubmitting}
-                  className="px-6 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-colors cursor-pointer disabled:bg-gray-400 disabled:cursor-not-allowed"
+                  className="px-6 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
                 >
                   되돌리기
                 </button>

@@ -273,13 +273,13 @@ const EmployeeManagement = () => {
         <div className="flex justify-between">
           <NavLink
             to="/employees/add"
-            className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 mr-1 cursor-pointer transition-colors"
+            className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 mr-1 transition-colors"
           >
             사용자 추가
           </NavLink>
           <button
             onClick={loadEmployees}
-            className="bg-cyan-500 text-white px-4 py-2 rounded hover:bg-cyan-600 cursor-pointer transition-colors"
+            className="bg-cyan-500 text-white px-4 py-2 rounded hover:bg-cyan-600 transition-colors"
           >
             새로고침
           </button>
@@ -369,7 +369,7 @@ const EmployeeManagement = () => {
                     <thead>
                       <tr className="bg-gray-50">
                         <th
-                          className="py-3 px-4 text-left font-medium text-gray-700 cursor-pointer hover:bg-gray-100 transition-colors"
+                          className="py-3 px-4 text-left font-medium text-gray-700 hover:bg-gray-100 transition-colors"
                           onClick={() => handleSort("emp_code")}
                         >
                           <div className="flex justify-between space-x-1">
@@ -378,7 +378,7 @@ const EmployeeManagement = () => {
                           </div>
                         </th>
                         <th
-                          className="py-3 px-4 text-left font-medium text-gray-700 cursor-pointer hover:bg-gray-100 transition-colors"
+                          className="py-3 px-4 text-left font-medium text-gray-700 hover:bg-gray-100 transition-colors"
                           onClick={() => handleSort("name")}
                         >
                           <div className="flex justify-between space-x-1">
@@ -387,7 +387,7 @@ const EmployeeManagement = () => {
                           </div>
                         </th>
                         <th
-                          className="py-3 px-4 text-left font-medium text-gray-700 cursor-pointer hover:bg-gray-100 transition-colors"
+                          className="py-3 px-4 text-left font-medium text-gray-700  hover:bg-gray-100 transition-colors"
                           onClick={() => handleSort("position")}
                         >
                           <div className="flex justify-between  space-x-1">
@@ -396,7 +396,7 @@ const EmployeeManagement = () => {
                           </div>
                         </th>
                         <th
-                          className="py-3 px-4 text-left font-medium text-gray-700 cursor-pointer hover:bg-gray-100 transition-colors"
+                          className="py-3 px-4 text-left font-medium text-gray-700  hover:bg-gray-100 transition-colors"
                           onClick={() => handleSort("hire_date")}
                         >
                           <div className="flex justify-between space-x-1">
@@ -405,7 +405,7 @@ const EmployeeManagement = () => {
                           </div>
                         </th>
                         <th
-                          className="py-3 px-4 text-left font-medium text-gray-700 cursor-pointer hover:bg-gray-100 transition-colors"
+                          className="py-3 px-4 text-left font-medium text-gray-700  hover:bg-gray-100 transition-colors"
                           onClick={() => handleSort("status")}
                         >
                           <div className="flex justify-between space-x-1">
@@ -419,7 +419,7 @@ const EmployeeManagement = () => {
                       {currentEmployees.map((employee) => (
                         <tr
                           key={employee.id}
-                          className="border-t hover:bg-gray-50 cursor-pointer transition-colors"
+                          className="border-t hover:bg-gray-50  transition-colors"
                           onClick={() =>
                             navigate(`/employees/edit/${employee.id}`)
                           }
