@@ -6,6 +6,7 @@ export interface Employee {
   emp_code: string;
   name: string;
   position: "PTL" | "SNR" | "TLD" | "REG" | "PRT";
+  role: "M" | "C" | "P";
   hire_date: string;
   status?: "active" | "inactive";
   created_at?: string;
@@ -80,6 +81,12 @@ export interface MonthlyWorkPlan {
   total_days?: number;
   holiday_days?: number;
   attendance_days?: number;
+  compensatory_days?: number;
+  total_work_days?: number;
+  annual_leave_days?: number;
+  absent_days?: number;
+  support_days?: number;
+  etc_days?: number;
   notes?: string;
   created_at?: string;
   updated_at?: string;
@@ -128,6 +135,13 @@ export interface AnnualLeave {
   notes?: string;
   created_at?: string;
   updated_at?: string;
+}
+
+// 월 정보
+export interface MonthInfo {
+  daysInMonth: number;
+  firstDay: number; // 0: 일요일, 1: 월요일, ...
+  days: number[];
 }
 
 // API 응답 타입
