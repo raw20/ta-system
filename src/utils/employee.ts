@@ -2,6 +2,7 @@ interface EmployeeValidationData {
   empCode: string;
   name: string;
   position: string;
+  role: string;
   hireDate: string;
 }
 
@@ -13,8 +14,14 @@ export const positions = [
   { id: 5, code: "PRT", name: "단시간사원" },
 ];
 
+export const roles = [
+  { id: 1, code: "M", name: "관리자" },
+  { id: 2, code: "C", name: "카트" },
+  { id: 3, code: "P", name: "주차" },
+];
+
 export const validateForm = (data: EmployeeValidationData): string => {
-  const { empCode, name, position, hireDate } = data;
+  const { empCode, name, position, role, hireDate } = data;
 
   if (!empCode.trim()) {
     return "사번을 입력해주세요.";
@@ -24,6 +31,10 @@ export const validateForm = (data: EmployeeValidationData): string => {
   }
   if (!position || position === "-") {
     return "직급을 선택해주세요.";
+  }
+
+  if (!role || role === "-") {
+    return "역할을 선택해주세요.";
   }
   if (!hireDate) {
     return "입사일을 입력해주세요.";
