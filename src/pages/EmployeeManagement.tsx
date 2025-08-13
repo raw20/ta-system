@@ -1,9 +1,15 @@
 import { useState, useEffect, useMemo } from "react";
 import { type Employee } from "../types/database";
 import { NavLink, useNavigate } from "react-router-dom";
-import { positions } from "../utils/employee";
+import { positions, roles } from "../utils/employee";
 
-type SortField = "emp_code" | "name" | "position" | "hire_date" | "status";
+type SortField =
+  | "emp_code"
+  | "name"
+  | "position"
+  | "role"
+  | "hire_date"
+  | "status";
 type SortOrder = "asc" | "desc";
 
 const EmployeeManagement = () => {
@@ -43,6 +49,10 @@ const EmployeeManagement = () => {
     return position?.name || "알수없음";
   };
 
+  const getRoleName = (code: string): string => {
+    const role = roles.find((r) => r.code === code);
+    return role?.name || "알수없음";
+  };
   // 정렬된 직원 목록
   const sortedEmployees = useMemo(() => {
     const sorted = [...employees].sort((a, b) => {
@@ -266,6 +276,8 @@ const EmployeeManagement = () => {
     loadEmployees();
   }, []);
 
+  console.log(employees);
+
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
@@ -397,6 +409,15 @@ const EmployeeManagement = () => {
                         </th>
                         <th
                           className="py-3 px-4 text-left font-medium text-gray-700  hover:bg-gray-100 transition-colors"
+                          onClick={() => handleSort("role")}
+                        >
+                          <div className="flex justify-between  space-x-1">
+                            <span>역할</span>
+                            {renderSortIcon("role")}
+                          </div>
+                        </th>
+                        <th
+                          className="py-3 px-4 text-left font-medium text-gray-700  hover:bg-gray-100 transition-colors"
                           onClick={() => handleSort("hire_date")}
                         >
                           <div className="flex justify-between space-x-1">
@@ -430,6 +451,9 @@ const EmployeeManagement = () => {
                           </td>
                           <td className="py-3 px-4">
                             {getPositionName(employee.position)}
+                          </td>
+                          <td className="py-3 px-4">
+                            {getRoleName(employee.role)}
                           </td>
                           <td className="py-3 px-4">{employee.hire_date}</td>
                           <td className="py-3 px-4">

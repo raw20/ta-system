@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import type { Employee } from "../types";
-import { positions, validateForm } from "../utils/employee";
+import { positions, roles, validateForm } from "../utils/employee";
 
 export default function EmployeeAdd() {
   const navigate = useNavigate();
@@ -11,6 +11,7 @@ export default function EmployeeAdd() {
   const [position, setPosition] = useState<
     "PTL" | "SNR" | "TLD" | "REG" | "PRT"
   >("REG");
+  const [role, setRole] = useState<"M" | "C" | "P">("P");
   const [hireDate, setHireDate] = useState("");
   const [error, setError] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -25,6 +26,7 @@ export default function EmployeeAdd() {
       empCode,
       name,
       position,
+      role,
       hireDate,
     });
 
@@ -40,6 +42,7 @@ export default function EmployeeAdd() {
         emp_code: empCode.trim(),
         name: name.trim(),
         position: position,
+        role: role,
         hire_date: hireDate,
       };
 
@@ -189,6 +192,30 @@ export default function EmployeeAdd() {
                   {positions?.map((p) => (
                     <option key={p.id} value={p.code}>
                       {p.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="flex items-center space-x-6">
+                <label
+                  htmlFor="position"
+                  className="w-16 text-sm font-medium text-gray-700"
+                >
+                  역할
+                </label>
+                <select
+                  name="role"
+                  id="role"
+                  value={role}
+                  onChange={(e) => setRole(e.target.value as "M" | "C" | "P")}
+                  className="flex-1 h-9 border-2 border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 rounded-lg px-3"
+                  disabled={isLoading}
+                >
+                  <option value="">선택해주세요</option>
+                  {roles?.map((r) => (
+                    <option key={r.id} value={r.code}>
+                      {r.name}
                     </option>
                   ))}
                 </select>
