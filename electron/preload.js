@@ -22,6 +22,33 @@ try {
         ipcRenderer.invoke("employees:update", id, employee),
       delete: (id) => ipcRenderer.invoke("employees:delete", id),
     },
+    // 🎯 월 근무계획 API 추가
+    monthlyPlans: {
+      getAll: () => ipcRenderer.invoke("monthly-plans:get-all"),
+      getByMonth: (year, month) =>
+        ipcRenderer.invoke("monthly-plans:get-by-month", year, month),
+      getByEmployee: (empCode, year, month) =>
+        ipcRenderer.invoke(
+          "monthly-plans:get-by-employee",
+          empCode,
+          year,
+          month
+        ),
+      create: (plan) => ipcRenderer.invoke("monthly-plans:create", plan),
+      update: (id, plan) =>
+        ipcRenderer.invoke("monthly-plans:update", id, plan),
+      delete: (id) => ipcRenderer.invoke("monthly-plans:delete", id),
+      exportToExcel: (year, month) =>
+        ipcRenderer.invoke("monthly-plans:export-to-excel", year, month),
+
+      // 유틸리티 (기존 유지)
+      getDaysInMonth: (year, month) =>
+        ipcRenderer.invoke("monthly-plans:get-days-in-month", year, month),
+    },
+
+    // 향후 추가될 API들
+    exportExcel: (type, data) => ipcRenderer.invoke("export:excel", type, data),
+    selectFolder: () => ipcRenderer.invoke("dialog:select-folder"),
 
     // 향후 추가될 API들
     exportExcel: (type, data) => ipcRenderer.invoke("export:excel", type, data),
