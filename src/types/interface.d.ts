@@ -85,6 +85,7 @@ export interface MonthlyWorkPlanAPI {
   ) => Promise<ApiResponse<MonthlyWorkPlan>>;
   delete: (id: number) => Promise<ApiResponse<void>>;
   exportToExcel: (year: number, month: number) => Promise<ApiResponse<string>>;
+  getDaysInMonth: (year: number, month: number) => Promise<ApiResponse<string>>;
 }
 
 // 야간시간 API
