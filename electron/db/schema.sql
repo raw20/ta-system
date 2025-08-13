@@ -6,9 +6,10 @@
 -- ========================================
 CREATE TABLE IF NOT EXISTS employees (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    emp_code TEXT UNIQUE NOT NULL,             -- 입사일 코드 (202502020 형태)
-    name TEXT NOT NULL,                        -- 이름
-    position TEXT NOT NULL,                    -- 직급 (파트장, 선임, 사원)
+    emp_code TEXT UNIQUE NOT NULL,            -- 입사일 코드 (202502020 형태)
+    name TEXT NOT NULL,                       -- 이름
+    position TEXT NOT NULL,                   -- 직급 (파트장, 선임, 사원)
+    role TEXT NOT NULL,                        -- 역할 (관리자, 카트, 주차)
     hire_date DATE,                           -- 입사일
     status TEXT DEFAULT 'active',             -- 재직상태
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
@@ -18,7 +19,7 @@ CREATE TABLE IF NOT EXISTS employees (
 -- ========================================
 -- 2. 근무 조 정보 테이블
 -- ========================================
-CREATE TABLE work_shifts (
+CREATE TABLE IF NOT EXISTS work_shifts (
     shift_number INTEGER PRIMARY KEY,          -- 1~9조
     shift_name TEXT NOT NULL,                  -- '1조', '2조'  
     start_time TEXT NOT NULL,                  -- '08:00', '09:00'
@@ -66,7 +67,7 @@ CREATE TABLE IF NOT EXISTS monthly_work_plans (
 -- ========================================
 -- 4. 근무편성표 테이블
 -- ========================================
-CREATE TABLE work_schedules (
+CREATE TABLE IF NOT EXISTS work_schedules (
     year INTEGER NOT NULL,
     month INTEGER NOT NULL, 
     day INTEGER NOT NULL,
@@ -106,7 +107,7 @@ CREATE TABLE IF NOT EXISTS monthly_attendance (
     year INTEGER NOT NULL,                     -- 연도
     month INTEGER NOT NULL,                    -- 월
     emp_code TEXT NOT NULL,                    -- 직원 코드
-    employee_type TEXT DEFAULT '정규',         -- 직원 유형 (정규, 단시간)
+    employee_type TEXT DEFAULT 'REG',         -- 직원 유형 (정규, 단시간)
     
     -- 일별 출근 시간 (1-31일) - JSON 형태로 저장
     attendance_data TEXT,                      -- JSON: {"01": {"in": "09:00", "out": "18:00"}, ...}
@@ -199,8 +200,8 @@ CREATE INDEX IF NOT EXISTS idx_annual_leave_status_date ON annual_leave_status(y
 -- ========================================
 
 -- 직원 정보 (주석 예시)
-INSERT OR IGNORE INTO employees (emp_code, name, position, hire_date) VALUES
-('202501010', '이마트', 'REG', '2025-01-01');
+INSERT OR IGNORE INTO employees (emp_code, name, position,role, hire_date) VALUES
+('202501010', '테스트', 'REG', 'P', '2025-01-01');
 
 
 -- 근무 조 정보 (주석 예시)
@@ -213,7 +214,7 @@ INSERT OR IGNORE INTO work_shifts (shift_number, shift_name, start_time) VALUES
 (6, '6조', '12:30'),
 (7, '7조', '14:00'),
 (8, '8조', '14:30'),
-(9, '9조', '15:00'),
+(9, '9조', '15:00');
 
 -- 근무 코드 정의
 INSERT OR IGNORE INTO work_codes (code, description, color, is_work_day) VALUES
